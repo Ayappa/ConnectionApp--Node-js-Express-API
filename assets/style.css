@@ -1,0 +1,32 @@
+#logo {
+	height: 70px;
+	max-width: 100px;
+}
+
+#footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+}
+
+#dividerNav {
+	padding-top: 20px;
+}
+#p1 {
+	font-size: 18px;
+	padding: 10px;
+}
+
+#p2 {
+	font-size: 18px;
+	padding: 10px;
+}
+
+#dp {
+	height: 150px;
+	max-width: 150px;
+}
+#detailButton {
+	margin: 5px;
+}

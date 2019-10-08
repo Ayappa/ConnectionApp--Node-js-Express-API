@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Round Table</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+	<link rel="stylesheet" href="/style.css" type="text/css"></link>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="ejs.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    
+  </script>
+
+</head>
+
+<body>
+
+  <%- include('navBar.ejs') -%>
+
+
+
+  <div class="container">
+
+    <div class="collection with-header">
+      <% var it=0;var Studies=0;var Software=0; %>
+     
+      <h4>IT</h4>
+      <% connectionList.forEach(function(conList){%>
+      <% if (conList.category=="IT"){ it++; %>
+      <div class="divider"></div>
+      <%var myJSON = JSON.stringify(conList);%>     
+      <a href="connections/connectionDetails/<%=conList._id%>" class="collection-item" name="connectionDetails"
+      ><%= conList.title%></a>
+      <%} %>
+      <%}) %>
+   
+      <% if (it===0){%>
+        <div class="divider"></div>
+      <a  class="collection-item">No IT connection avaliable. Create One to Add</a>
+      <%} %>
+    </div>
+    </br></br>
+
+    <div class="collection with-header">
+      <!-- <%  %> -->
+     
+      <h4>Studies</h4>
+      <% connectionList.forEach(function(conList){%>
+      <% if (conList.category=="Studies"){ Studies++;%>
+        <div class="divider"></div>
+        <%var myJSON = JSON.stringify(conList);%>   
+        <a href="connections/connectionDetails/<%=conList._id%>" class="collection-item" name="connectionDetails"
+        ><%= conList.title%></a> 
+        <%} %>
+      <%}) %>
+      
+      <% if (Studies===0){  %>
+        <div class="divider"></div>
+      <a  class="collection-item">No IT connection avaliable. Create One to Add</a>
+      <%} %>
+    </div>
+  </br></br>
+  <div class="collection with-header">
+      <!-- <% var Software=0; %> -->
+    
+      <h4>Software</h4>
+      <% connectionList.forEach(function(conList){%>
+      <% if (conList.category=="Software"){ Software++;%>
+        <%var myJSON = JSON.stringify(conList);%>   
+        <a href="connections/connectionDetails/<%=conList._id%>" class="collection-item" name="connectionDetails"
+        ><%= conList.title%></a> 
+      <%} %>
+      <%}) %>
+    
+      <% if (Software===0){ %>
+        <div class="divider"></div>
+      <a  class="collection-item">No IT connection avaliable. Create One to Add</a>
+      <%} %>
+    </div>
+  </div>
+
+
+
+  <span style="position: fixed; bottom: 0;	width: 100%"><%- include('fotter.ejs') -%></span>
+</body>
+
+</html>

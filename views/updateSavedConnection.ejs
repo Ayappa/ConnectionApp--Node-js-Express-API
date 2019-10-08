@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta charset="UTF-8" />
+		<title>Round Table</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+		/>
+		<link rel="stylesheet" href="/style.css" type="text/css"></link>
+		<!-- Compiled and minified JavaScript -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<script src="ejs.min.js"></script>
+	</head>
+
+	<body>
+		<%- include('navBar.ejs') -%>
+
+		<div class="container">
+			<table>
+				<thead>
+					<tr>
+						<th>Table</th>
+						<th>category</th>
+						<th>Goiing?</th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<%if(savedConnection.length!=0){%>
+						<% savedConnection.forEach(function(saved){%>
+					<tr>
+						<td><%=saved.title%></td>
+						<td><%=saved.category%></td>
+						<td><%=saved.going%></td>
+						<td>
+							<a class="btn waves-effect waves-light" href="/connections"
+								>Update</a
+							>
+							<a
+								class="btn waves-effect waves-light"
+								
+								href="/connections/update/Delete/<%=saved.title%>/<%=saved.category%>/2"								>Delete</a
+							>
+						</td>
+					</tr>
+					<%})%>
+					<%}%>
+				</tbody>
+			</table>
+		</div>
+
+		<%- include('fotter.ejs') -%>
+	</body>
+</html>

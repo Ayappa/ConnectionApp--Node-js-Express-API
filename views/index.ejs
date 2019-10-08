@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Round Table</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+		/>
+		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+
+		<link rel="stylesheet" href="/style.css" type="text/css"></link>
+		<!-- Compiled and minified JavaScript -->
+		<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>  -->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		
+	</head>
+
+	<body>
+		<%- include('navBar.ejs') -%>
+
+		<% if(tostLogin==0){ %>
+			<script >  M.toast({html: 'Logged In'});</script>
+			<%}%>
+
+		<div class="container">
+			<h3>Welcome to Round Table</h3>
+		</div>
+		<div id="p1" class="container">
+			<p>
+				Reserve a seat at round table to enjoy, share, make new friends and
+				learn at the round table. Round Table can be for anything like Meetings,
+				searching for buddy, Tech talk and Events etc. Any one who is interested
+				can reserve a seat at round table or create a new Round Table for
+				others.
+			</p>
+		</div>
+		<div id="p2" class="container">
+			<p>
+				So check the Tables to look-up for new tables to reserve a seat or
+				create a new Round Table with New Round Table.
+			</p>
+		</div>
+		<span style="position: fixed; bottom: 0;	width: 100%"><%- include('fotter.ejs') -%></span>
+	</body>
+</html>

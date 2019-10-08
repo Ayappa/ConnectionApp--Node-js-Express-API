@@ -1,0 +1,33 @@
+{
+  "name": "phase_2",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "client": " nodemon server.js",
+    "server": "npm start --prefix Api",
+    "clientin stall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arraylist": "^0.1.0",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.2",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.3.2",
+    "node-session": "^1.2.1",
+    "path": "^0.12.7",
+    "querystring": "^0.2.0",
+    "socket.io": "^2.2.0",
+    "yargs": "^14.0.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}

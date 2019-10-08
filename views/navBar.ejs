@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+	<link rel="stylesheet" href="/style.css" type="text/css">
+	</link>
+	</link>
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script>
+
+		// var form = document.getElementById("myForm");
+		// form.reset();
+
+		$(document).ready(function () {
+			$('.modal').modal();
+			$('select').formSelect();
+			$('.datepicker').datepicker();
+			$('.timepicker').timepicker();
+
+		})
+	</script>
+</head>
+
+<body>
+
+	<div id="modal1" class="modal ">
+
+		<div class="modal-content row container">
+			<h4>Start a New Connection</h4>
+			<form class="col s12" id="myForm" method="POST" action="/connections">
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="Title" name="title" type="text" class="validate" required="" aria-required="true">
+						<label for="Title">Title of your connection</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="input-field col s12">
+						<select name="category" id="type" required aria-required="true" class="validate">
+							<option value="" disabled selected>Choose your option</option>
+							<option value="IT">IT</option>
+							<option value="Software">Software</option>
+							<option value="Studies">Studies</option>
+						</select>
+						<label>Choose your Category</label>
+					</div>
+				</div>
+
+
+
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="address" name="address" type="text" class="validate" required=""
+							aria-required="true">
+						<label for="address">Event Location</label>
+
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div class="input-field col s4">
+						<input id="date" name="date" type="text" class="datepicker" class="validate" required>
+						<label for="date">Select Date</label>
+
+					</div>
+					<div class="input-field col s4">
+						<input id="timeFrom" name="timeFrom" type="text" class="timepicker" class="validate" required>
+						<label for="timeFrom">Select Start Time</label>
+
+					</div>
+
+
+
+					<div class="input-field col s4">
+						<input id="timeTo" name="timeTo" type="text" class="timepicker" class="validate" required>
+						<label for="timeTo">Select End Time</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="input-field col s12">
+						<textarea id="textarea2" type="text" name="description" class="materialize-textarea"
+							class="validate" required="" aria-required="true"></textarea>
+						<label for="textarea2">Description</label>
+
+					</div>
+				</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" class=" waves-effect waves-green btn-flat">Create Connection
+				</but>
+		</div>
+		</form>
+
+	</div>
+
+	<nav class="nav-extended">
+		<div class="row">
+			<div id="logo" class="col s1">
+				<img src="/logo.jpg" alt="" class="circle responsive-img" />
+			</div>
+			<div class="col s11">
+				<a href="/home" class="brand-logo">Round Table</a>
+
+
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+
+					<% nav.forEach(function(item){%>
+					<% if (item==='SignUp'){%>
+					<li><a href="/signUp">SignUp</a></li>
+					<%} %>
+					<% if (item==='Start a new connection'){%>
+					<li> <a class="modal-trigger" href="#modal1" disabled>Start a new connection</a>
+						<%} %>
+						<% if (item==='login'){%>
+					<li><a href="/">login</a></li>
+					<%} %>
+					<% if (item==='logOut'){%>
+						<li><a href="/logout">LogOut</a></li>
+						<%} %>
+					<%}) %>
+
+				</ul>
+			</div>
+
+			<div id="dividerNav" class="col s12">
+				<div class="divider"></div>
+				<div class="nav-content">
+					<ul class="tabs tabs-transparent">
+						<% subNav.forEach(function(item){%>
+						<% if (item==='Home'){%>
+						<li class="tab"><a href="/home">Home</a></li>
+						<%} %>
+
+						<% if (item==='Connections'){%>
+						<li class="tab">
+							<a href="/connections">Connections</a>
+						</li> <%} %>
+
+						<% if (item==='ConnectionsDetail'){%>
+							<li class="tab">
+								<a href="/savedConnections">Interested Connections</a>
+							</li> <%} %>
+							<% if (item==='ConnectionsCreated'){%>
+								<li class="tab">
+									<a href="/createdConnections">Created Connections</a>
+								</li> <%} %>
+	
+						<!-- <li class="tab"><a class="active" href="#test2">Test 2</a></li>
+										<li class="tab disabled"><a href="#test3">Disabled Tab</a></li>
+										<li class="tab"><a href="#test4">Test 4</a></li> -->
+						<%}) %>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+
+</body>
+
+</html>
