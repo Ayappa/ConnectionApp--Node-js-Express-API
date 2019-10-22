@@ -63,7 +63,7 @@ app.get("/", (req, res) => {
 	var subNav = ["Home"];
 	// const { userId } = req.session;
 	// console.log(userId);
-	res.render("login.ejs", { nav, subNav });
+	res.render("login.ejs", { nav, subNav, flag: 0 });
 });
 
 app.post("/", (req, res) => {
@@ -96,6 +96,7 @@ app.post("/", (req, res) => {
 				req.session.token = token;
 				req.session.uId = Uid;
 				req.session.name = person;
+				req.session.del = 0;
 				console.log("registered a new user with token=");
 				console.log(token);
 
@@ -131,7 +132,7 @@ app.get("/home", redirectLogin, (req, res) => {
 		tostLogin = 1;
 		console.log("iside if not contains" + tostLogin);
 	}
-	res.render("index.ejs", { nav, subNav, tostLogin });
+	res.render("index.ejs", { nav, subNav, tostLogin, name: req.session.name });
 });
 
 app.post("/home", (req, res) => {
@@ -147,25 +148,25 @@ app.post("/home", (req, res) => {
 	const { email, password } = req.body;
 	//
 
-	appJs.login(email, password).then(
-		({ token, Uid, person }) => {
+	appJs
+		.login(email, password)
+		.then(({ token, Uid, person }) => {
 			req.session.token = token;
 			req.session.uId = Uid;
 			req.session.name = person;
-
+			req.session.del = 0;
 			console.log("token in session=" + token);
 			console.log("Uid in session=" + Uid);
 			console.log("user name in session=" + person);
 			req.session.login = 0;
-
 			console.log("Toastttttttttttt=" + req.session.login);
-
-			return res.redirect("/home");
-		},
-		message => {
-			console.log(message);
-		}
-	);
+			res.render("index.ejs", { nav, subNav, flag: 0 });
+		})
+		.catch(msg => {
+			var nav = ["SignUp"];
+			var subNav = ["Home"];
+			res.render("login.ejs", { nav, subNav, flag: 1 });
+		});
 });
 
 app.get("/connections", (req, res) => {
@@ -178,7 +179,7 @@ app.get("/connections", (req, res) => {
 	];
 	//console.log("inside GET of connection" + connectionList.length);
 	appJs.getConnectionList(req.session.token).then(connectionList => {
-		res.render("connections.ejs", { connectionList, nav, subNav });
+		res.render("connections.ejs", { connectionList, nav, subNav, flag: 0 });
 	});
 });
 
@@ -212,15 +213,10 @@ app.post("/connections", (req, res) => {
 			description
 		)
 		.then(connectionList => {
-			//	savedConnection.add(connectionList);
-			console.log("inside post of connection" + connectionList.length);
-			//console.log("connection ID___===" + JSON.stringify(connectionList));
-
-			res.render("connections.ejs", { connectionList, nav, subNav });
-			//console.log(message.get(0));
+			var flag = 1;
+			res.render("connections.ejs", { connectionList, nav, subNav, flag });
 		})
 		.catch(err => {
-			console.log("inside errrr===" + err);
 			res.redirect("/contacts");
 		});
 });
@@ -244,9 +240,12 @@ app.get("/connections/connectionDetails/:con", (req, res) => {
 	console.log("message id = " + req.params.con);
 	console.log("name id = " + req.session.name);
 
-	appJs.getCreatedConnectionDetails(req.params.con, token).then(
-		({ connectionItem, connectionDetail }) => {
+	appJs
+		.getCreatedConnectionDetails(req.params.con, token)
+		.then(({ connectionItem, connectionDetail }) => {
 			console.log("User id = " + connectionItem);
+			var flag = req.session.status;
+			req.session.status = 0;
 
 			res.render("connectionDetails.ejs", {
 				connectionItem,
@@ -254,13 +253,23 @@ app.get("/connections/connectionDetails/:con", (req, res) => {
 				nav,
 				subNav,
 				id: req.session.uId,
-				name: req.session.name
+				name: req.session.name,
+				flag
 			});
-		},
-		errMessage => {
-			console.log(errMessage);
-		}
-	);
+		})
+		.catch(errMsg => {
+			console.log("woring" + errMsg);
+			res.render("connectionDetails.ejs", {
+				connectionItem,
+				connectionDetail,
+				nav,
+				subNav,
+				id: req.session.uId,
+				name: req.session.name,
+				flag: 1
+			});
+		});
+
 	//res.render("connectionDetails.ejs", { conectionDetail, nav, subNav,id });
 });
 
@@ -301,16 +310,20 @@ app.get(
 		appJs
 			.intrestedConnection(req.session.token, status, conId, title, category)
 			.then(savedConnection => {
-				// console.log("savedConnection==" + savedConnection);
-				res.render("savedConnections.ejs", {
-					savedConnection,
-					nav,
-					subNav
-				});
+				console.log("savedConnection==123" + savedConnection);
+				res.redirect("/savedConnections");
+				// res.render("savedConnections.ejs", {
+				// 	savedConnection,
+				// 	nav,
+				// 	subNav,
+				// 	flag: 0
+				// });
 			})
 			.catch(err => {
 				console.log("err in catch==" + err);
-				res.redirect("/contacts");
+				req.session.status = 1;
+				//res.redirect("/about");
+				res.redirect("/connections/connectionDetails/" + conId);
 			});
 	}
 );
@@ -326,15 +339,19 @@ app.get("/savedConnections", (req, res) => {
 
 	appJs.getConnectionItems(req.session.token).then(savedConnection => {
 		// console.log("savedConnection==" + savedConnection);
+		var flag = req.session.del;
+		req.session.del = 0;
+
 		res.render("savedConnections.ejs", {
 			savedConnection,
 			nav,
-			subNav
+			subNav,
+			flag
 		});
 	});
 });
 
-app.get("/connections/connectionDetails/:action/:status/:conId", (req, res) => {
+app.get("/connections/connectionDetails/:action/:conId", (req, res) => {
 	const { action, conId, status } = req.params;
 	var nav = ["Start a new connection", "logOut"];
 	var subNav = [
@@ -354,7 +371,9 @@ app.get("/connections/connectionDetails/:action/:status/:conId", (req, res) => {
 				status
 			)
 			.then(() => {
-				// console.log("savedConnection==" + savedConnection);
+				console.log("indelete==");
+				req.session.del = 1;
+
 				res.redirect("/savedConnections");
 			});
 	}
@@ -369,10 +388,13 @@ app.get("/createdConnections", (req, res) => {
 		"ConnectionsCreated"
 	];
 	appJs.CreatedConnectionDetails(req.session.token).then(connections => {
+		var flag = req.session.delete;
+		req.session.delete = 0;
 		res.render("createdConnections.ejs", {
 			connections,
 			nav,
-			subNav
+			subNav,
+			flag
 		});
 	});
 });
@@ -390,6 +412,7 @@ app.get("/connections/createdConnection/delete/:conId", (req, res) => {
 	appJs
 		.deleteCreatedConnectionDetails(req.session.token, conId)
 		.then(connections => {
+			req.session.delete = 1;
 			res.redirect("/createdConnections");
 		});
 });

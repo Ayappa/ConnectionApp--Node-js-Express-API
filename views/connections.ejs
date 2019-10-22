@@ -20,7 +20,9 @@
 
   <%- include('navBar.ejs') -%>
 
-
+  <% if(flag==1){  %>
+    <script > M.toast({html: "Connection Added !!!",classes: 'rounded'});</script>
+    <%}%>
 
   <div class="container">
 
@@ -69,6 +71,7 @@
       <h4>Software</h4>
       <% connectionList.forEach(function(conList){%>
       <% if (conList.category=="Software"){ Software++;%>
+        <div class="divider"></div>
         <%var myJSON = JSON.stringify(conList);%>   
         <a href="connections/connectionDetails/<%=conList._id%>" class="collection-item" name="connectionDetails"
         ><%= conList.title%></a> 

@@ -16,7 +16,9 @@
 
 	<body>
 		<%- include('navBar.ejs') -%>
-
+		<% if(flag==1){  %>
+			<script > M.toast({html: "Connection Deleted!!!",classes: 'rounded'});</script>
+			<%}%>
 		<div class="container">
 			<table>
 				<thead>
@@ -37,12 +39,12 @@
 						<td><%=saved.status%></td>
 						<td>
 							<a class="btn waves-effect waves-light" 
-							href="/connections/connectionDetails/update/0/<%=saved.conId%>"
+							href="/connections/connectionDetails/update/<%=saved.conId%>"
 								>Update</a
 							>
 							<a
 								class="btn waves-effect waves-light"	
-						href="/connections/connectionDetails/delete/<%=saved.status%>/<%=saved.conId%>">Delete</a
+						href="/connections/connectionDetails/delete/<%=saved.conId%>">Delete</a
 							>
 						</td>
 					</tr>
@@ -51,6 +53,10 @@
 				</tbody>
 			</table>
 		</div>
+		<%if(savedConnection.length == 0){%>
+			<h2>You have No connections  , Add some connection to view... </h2>
+	
+			<%}%>
 		<span style="position: fixed; bottom: 0;	width: 100%"><%- include('fotter.ejs') -%></span>	</body>
 	</body>
 </html>

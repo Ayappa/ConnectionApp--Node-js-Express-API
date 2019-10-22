@@ -13,7 +13,9 @@
 
 <body>
     <%- include('navBar.ejs') -%>
-    
+    <% if(flag==1){  %>
+        <script > M.toast({html: "Same response !!!",classes: 'rounded'});</script>
+        <%}%>
     <div class="container">
      <h3><%=connectionItem.title %></h3>
         </br>

@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 
 router.get("/", auth, (req, res) => {
 	if (res) {
-		InterestedConnection.find({}, (err, posts) => {
+		InterestedConnection.find({ userId: req.user.id }, (err, posts) => {
 			return res.json(posts);
 		});
 	} else {

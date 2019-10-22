@@ -397,7 +397,7 @@ var intrestedConnection = (token, status, conId, title, category) => {
 							status
 						}
 					}).then(added => {
-						console.log("your response noted " + added.data.msg);
+						console.log("your response noted added" + added.data.msg);
 
 						if (status === "Yes") {
 							axios({
@@ -409,32 +409,12 @@ var intrestedConnection = (token, status, conId, title, category) => {
 									status: "Yes"
 								}
 							}).then(m => {
-								console.log("your response noted " + m.data.msg);
-								axios({
-									method: "get",
-									url: "http://localhost:5000/api/InterestedConnection",
-									headers: { "x-auth-token": token }
-								})
-									.then(interestedConnection => {
-										resolve(interestedConnection.data);
-									})
-									.catch(e => {
-										reject(e);
-									});
+								console.log("your response noted get " + m.data.msg);
+								resolve(m.data.msg);
 							});
 						}
 
-						axios({
-							method: "get",
-							url: "http://localhost:5000/api/InterestedConnection",
-							headers: { "x-auth-token": token }
-						})
-							.then(interestedConnection => {
-								resolve(interestedConnection.data);
-							})
-							.catch(e => {
-								reject(e);
-							});
+						resolve(added.data.msg);
 					});
 				} else if (mssg.data.msg === "Your hav changed your  response as Yes") {
 					axios({
@@ -456,62 +436,62 @@ var intrestedConnection = (token, status, conId, title, category) => {
 									status: "Yes"
 								}
 							}).then(mss => {
-								axios({
-									method: "get",
-									url: "http://localhost:5000/api/InterestedConnection",
-									headers: { "x-auth-token": token }
-								})
-									.then(interestedConnection => {
-										console.log(msg.data);
-
-										resolve(interestedConnection.data);
-									})
-									.catch(e => {
-										reject(e);
-									});
+								resolve(mss.data.msg);
 							});
 						})
 						.catch(e => {
 							console.log(msg.data);
 						});
 				} else if (mssg.data.msg === "Your hav changed your  response as No") {
-					axios({
-						method: "put",
-						url: "http://localhost:5000/api/createdConnection",
-						headers: { "x-auth-token": token },
-						data: {
-							conId,
-							status: "No"
-						}
-					})
-						.then(msg => {
-							axios({
-								method: "put",
-								url: "http://localhost:5000/api/InterestedConnection",
-								headers: { "x-auth-token": token },
-								data: {
-									conId,
-									status: "No"
-								}
-							}).then(mss => {
-								axios({
-									method: "get",
-									url: "http://localhost:5000/api/InterestedConnection",
-									headers: { "x-auth-token": token }
-								})
-									.then(interestedConnection => {
-										console.log(msg.data);
-
-										resolve(interestedConnection.data);
-									})
-									.catch(e => {
-										reject(e);
-									});
-							});
-						})
-						.catch(e => {
-							console.log(msg.data);
+					console.log("//////////////////////////////////");
+					console.log("/////////at  NO sstatusq234" + mssg.data.status);
+					if (mssg.data.status == "Maybe") {
+						axios({
+							method: "put",
+							url: "http://localhost:5000/api/InterestedConnection",
+							headers: { "x-auth-token": token },
+							data: {
+								conId,
+								status: "No"
+							}
+						}).then(mss => {
+							resolve(mss.data.msg);
 						});
+						//	resolve(mssg.data.msg);
+					}
+					if (mssg.data.status == "Yes") {
+						axios({
+							method: "put",
+							url: "http://localhost:5000/api/createdConnection",
+							headers: { "x-auth-token": token },
+							data: {
+								conId,
+								status: "No"
+							}
+						})
+							.then(msg => {
+								console.log("//////////////////////////////////");
+								//console.log("/////////at  NO sstatus" + msg.data);
+								// if (msg.data.status === "Maybe" || msg.data.status === "No") {
+								// 	resolve(msg.data);
+								// }
+
+								axios({
+									method: "put",
+									url: "http://localhost:5000/api/InterestedConnection",
+									headers: { "x-auth-token": token },
+									data: {
+										conId,
+										status: "No"
+									}
+								}).then(mss => {
+									resolve(mss.data.msg);
+								});
+							})
+							.catch(e => {
+								console.log(msg.data);
+							});
+					}
 				} else if (
 					mssg.data.msg === "Your hav changed your  response as Maybe"
 				) {
@@ -524,17 +504,17 @@ var intrestedConnection = (token, status, conId, title, category) => {
 						}
 					})
 						.then(mssg => {
-							if (mssg.data.status === "No") {
-								axios({
-									method: "put",
-									url: "http://localhost:5000/api/createdConnection",
-									headers: { "x-auth-token": token },
-									data: {
-										conId,
-										status: "Yes"
-									}
-								}).then(e => {});
-							}
+							// if (mssg.data.status === "No") {
+							// 	axios({
+							// 		method: "put",
+							// 		url: "http://localhost:5000/api/createdConnection",
+							// 		headers: { "x-auth-token": token },
+							// 		data: {
+							// 			conId,
+							// 			status: "Yes"
+							// 		}
+							// 	}).then(e => {});
+							// }
 							if (mssg.data.status === "Yes") {
 								axios({
 									method: "put",
@@ -560,18 +540,11 @@ var intrestedConnection = (token, status, conId, title, category) => {
 							status: "Maybe"
 						}
 					}).then(mss => {
-						axios({
-							method: "get",
-							url: "http://localhost:5000/api/InterestedConnection",
-							headers: { "x-auth-token": token }
-						})
-							.then(interestedConnection => {
-								resolve(interestedConnection.data);
-							})
-							.catch(e => {
-								reject(e);
-							});
+						resolve(mss.data.msg);
 					});
+				} else {
+					console.log("err already reponded");
+					reject("already stored");
 				}
 			})
 
@@ -659,21 +632,8 @@ var intrestedConnectionDelete = (token, conId, uid, status) => {
 					}
 				}).then(m => {
 					console.log("deleting interested " + m.data.msg);
-					if (status === "Yes") {
-						axios({
-							method: "put",
-							url: "http://localhost:5000/api/createdConnection",
-							headers: { "x-auth-token": token },
-							data: {
-								conId,
-								status: "No"
-							}
-						}).then(ms => {
-							console.log("+ _ interested " + ms.data.msg);
 
-							resolve();
-						});
-					}
+					resolve();
 				});
 			})
 			.catch(e => {

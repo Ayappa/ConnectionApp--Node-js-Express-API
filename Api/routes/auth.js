@@ -40,9 +40,9 @@ router.post(
 				console.log("password==" + password);
 				console.log("item.password==" + item.password);
 				bcrypt.compare(password, item.password, (err, response) => {
-					console.log("response==" + res);
+					console.log("response==" + response);
 
-					if (!res) {
+					if (!response) {
 						console.log("error==" + err);
 						return res.status(400).json({ msg: "User credentials invalid" });
 					} else {

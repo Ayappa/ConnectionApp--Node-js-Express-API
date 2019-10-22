@@ -16,7 +16,9 @@
 
 	<body>
 		<%- include('navBar.ejs') -%>
-
+<% if(flag==1){  %>
+    <script > M.toast({html: "Connection Deleted!!!",classes: 'rounded'});</script>
+    <%}%>
 		<div class="container">
 			<table>
 				<thead>
@@ -47,6 +49,10 @@
 					<%}%>
 				</tbody>
 			</table>
+			<%if(connections.length == 0){%>
+				<h2>You have No connections  , Create connection to view </h2>
+		
+				<%}%>
 		</div>
 		<span style="position: fixed; bottom: 0;	width: 100%"><%- include('fotter.ejs') -%></span>	</body>
 	</body>

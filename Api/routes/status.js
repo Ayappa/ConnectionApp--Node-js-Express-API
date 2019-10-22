@@ -32,7 +32,8 @@ router.post(
 						console.log("inside post present 1==" + flag);
 
 						return res.json({
-							msg: "Your hav already showed your response as " + post.flag
+							msg: "Your hav already showed your response as " + flag,
+							status: post.flag
 						});
 					} else {
 						console.log("inside post not  present ");
@@ -44,7 +45,8 @@ router.post(
 							(erro, updated) => {
 								if (updated) {
 									return res.json({
-										msg: "Your hav changed your  response as " + flag
+										msg: "Your hav changed your  response as " + flag,
+										status: post.flag
 									});
 								} else {
 									return res.json({
@@ -79,9 +81,6 @@ router.delete(
 		auth,
 		check("conId", "conId is equiredr")
 			.not()
-			.isEmpty(),
-		check("userId", "uid is equiredr")
-			.not()
 			.isEmpty()
 	],
 	(req, res) => {
@@ -93,7 +92,7 @@ router.delete(
 		if (res) {
 			const { conId } = req.body;
 			console.log("inside validation error=" + conId);
-			console.log("inside validation userId=" + userId);
+			console.log("inside validation userId=" + req.user.id);
 
 			Status.findOneAndRemove({ conId, userId: req.user.id }, err => {
 				if (!err) {
